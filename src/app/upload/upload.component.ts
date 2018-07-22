@@ -4,6 +4,7 @@ import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album.model';
 import { AngularFireDatabase } from 'angularfire2/database';
 import 'rxjs-compat/add/operator/first';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'app-upload',
@@ -18,13 +19,22 @@ export class UploadComponent implements OnInit {
 	album: Album;
 	files: any;
 
+	passcodeForm = new FormGroup({
+		passcode: new FormControl('')
+	});
+
+	requirePasscode = false;
+
 	constructor(private route: ActivatedRoute, private albumService: AlbumService, private db: AngularFireDatabase) { }
 
 	ngOnInit() {
 		this.albumService.getAlbum(this.route.snapshot.params['shortCode']).subscribe(
 			album => {
 				this.album = album;
-				console.log('albumerino', this.album);
+				console.log(album);
+				if (!this.album.privateView) {
+					this.requirePasscode = true;
+				}
 			},
 			err => {
 				console.log(err);
@@ -44,6 +54,12 @@ export class UploadComponent implements OnInit {
 			this.uploading = false;
 			this.picturesInput.nativeElement.value = null;
 		});
+	}
+
+	checkPasscode() {
+		if (this.passcodeForm.value.passcode === this.album.passcode) {
+			this.requirePasscode = false;
+		}
 	}
 
 }
