@@ -18,7 +18,7 @@ export class AlbumService {
   }
 
   createAlbum(options: CreateAlbumOptions) {
-    return this.locationService.getLocation().pipe(
+    return this.locationService.location$.pipe(
         switchMap(location => {
             const album: Album = {
                 name: options.name,

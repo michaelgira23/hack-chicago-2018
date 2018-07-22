@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Location } from '../models/location.model';
 
@@ -7,22 +7,20 @@ import { Location } from '../models/location.model';
 })
 export class LocationService {
 
-  constructor() { }
+	location$ = new BehaviorSubject<Location>(null);
 
-  getLocation(): Observable<Location> {
-    return Observable.create(observer => {
-      navigator.geolocation.getCurrentPosition(
+  constructor() {
+	navigator.geolocation.getCurrentPosition(
         position => {
-          observer.next({
+          this.location$.next({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
           });
         },
         error => {
-          observer.error(error);
+          this.location$.error(error);
         }
       );
-    });
   }
 
 }
