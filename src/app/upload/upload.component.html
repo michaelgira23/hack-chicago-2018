@@ -1,3 +1,14 @@
-<p>
-  upload works!
-</p>
+<div class="cool-container">
+	<a class="back" routerLink="/">
+		<i class="fas fa-angle-left"></i> Back
+	</a>
+	<h1 class="title">Upload to {{ album?.name ? album.name : 'Album' }}</h1>
+	<form (submit)="upload()">
+
+		<input #pictures type="file" class="pictures form-control-file" name="pictures" [(ngModel)]="files" multiple>
+
+		<button type="submit" class="btn btn-primary btn-lg btn-block">
+			<i class="fas fa-cloud-upload"></i> Upload
+		</button>
+	</form>
+</div>

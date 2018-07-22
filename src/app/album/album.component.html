@@ -4,17 +4,17 @@
 	</a>
 	<div class="title">
 		<h1 class="title-title">{{ album.name }}</h1>
-		<small class="subtitle text-muted">Mary Institute and Saint Louis Country Say School</small>
+		<small class="subtitle text-muted">TechNexus</small>
 		<button class="btn btn-secondary">Download Album</button>
 	</div>
 </div>
 <div class="container bounceInDown" *ngIf="album">
 	<div class="card-columns">
-		<div class="album-upload-image card p-3">
+		<div class="album-upload-image card p-3" [routerLink]="['/upload', album.shortCode]">
 			<i class="fas fa-cloud-upload"></i>
 			<div>Upload</div>
 		</div>
-		<div *ngFor="let key of imageKeys" class="album-image card">
+		<div *ngFor="let key of imageKeys" class="card">
 			<img class="card-img-top" [src]="album.images[key]">
 			<div class="card-footer">
 				<small class="text-muted">Last updated 3 mins ago</small>
