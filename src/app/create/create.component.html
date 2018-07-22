@@ -22,6 +22,12 @@
 			<label for="discoverableCheck">Discoverable nearby</label>
 		</div>
 
+		<div class="form-group form-check">
+			<input type="checkbox" class="form-check-input" id="privateViewCheck"
+				   formControlName="privateView">
+			<label for="privateViewCheck">Passcode required to view</label>
+		</div>
+
 		<button type="submit" class="btn btn-primary btn-lg btn-block"
 				[disabled]="!createAlbumForm.valid">
 			<i class="fas fa-plus"></i> Create

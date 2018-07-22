@@ -8,6 +8,7 @@ export interface Album {
 	created: number;
 	name: string;
 	discoverable: boolean;
+	privateView: boolean;
 }
 
 export interface DistanceAlbum extends Album {

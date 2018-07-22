@@ -63,6 +63,7 @@ export class AlbumService {
 					shortCode,
 					name: options.name,
 					discoverable: options.discoverable,
+					privateView: options.privateView,
 					created: firebase.database.ServerValue.TIMESTAMP as any,
 					images: {},
 					passcode: options.passcode || '',
@@ -160,4 +161,5 @@ export interface CreateAlbumOptions {
 	name: string;
 	discoverable: boolean;
 	passcode?: string;
+	privateView: boolean;
 }

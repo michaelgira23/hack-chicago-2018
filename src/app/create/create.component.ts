@@ -13,7 +13,8 @@ export class CreateComponent implements OnInit {
 	createAlbumForm = new FormGroup({
 		name: new FormControl(''),
 		discoverable: new FormControl(true),
-		passcode: new FormControl('')
+		passcode: new FormControl(''),
+		privateView: new FormControl(false)
 	});
 
 	constructor(private router: Router, private albumService: AlbumService) {
