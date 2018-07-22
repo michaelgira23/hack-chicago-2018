@@ -1,8 +1,8 @@
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album } from '../models/album.model';
 import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
 
@@ -14,7 +14,11 @@ export class AlbumService {
   constructor(private db: AngularFireDatabase, private locationService: LocationService) { }
 
   getAllAlbums() {
-    return this.db.list<Album>('albums').valueChanges();
+    return this.db.list<Album>('albums').snapshotChanges().pipe<SnapshotAction<Album>[]>(
+      tap(refs => {
+          refs.sort((a, b) => this.locationService.getDistance(a.payload.val().location, b.payload.val().location));
+      })
+    );
   }
 
   createAlbum(options: CreateAlbumOptions) {
