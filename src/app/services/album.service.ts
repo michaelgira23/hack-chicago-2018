@@ -1,7 +1,7 @@
 import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album, DistanceAlbum } from '../models/album.model';
 import { Injectable } from '@angular/core';
-import { combineLatest, forkJoin, from } from 'rxjs';
+import { combineLatest, forkJoin, from, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
@@ -77,7 +77,7 @@ export class AlbumService {
 		);
 	}
 
-	addImagesToAlbum(shortCode: string, images: File[]) {
+	addImagesToAlbum(shortCode: string, passcode: string, images: File[]) {
 		return forkJoin([
 			this.getAlbumAction(shortCode),
 			...images.map(image => {
@@ -88,11 +88,16 @@ export class AlbumService {
 			})
 		]).pipe(
 			switchMap(([action, ...urls]) => {
+				const snapAction = action as SnapshotAction<Album>;
+				if (snapAction.payload.val().passcode !== passcode) {
+					return throwError(new Error('Passcodes do not match!'));
+				}
+
 				const urlMap: { [timestamp: number]: string } = {};
 				for (const url of urls) {
 					urlMap[Date.now()] = url as string;
 				}
-				return this.db.object(`albums/${(action as SnapshotAction<Album>).key}/images`).update(urlMap);
+				return this.db.object(`albums/${snapAction.key}/images`).update(urlMap);
 			})
 		);
 	}
