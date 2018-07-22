@@ -2,5 +2,23 @@
 	<a class="back" routerLink="/">
 		<i class="fas fa-angle-left"></i> Back
 	</a>
-	<h1 class="title">Album Name</h1>
+	<div class="title">
+		<h1 class="title-title">Album Name</h1>
+		<small class="subtitle text-muted">Mary Institute and Saint Louis Country Say School</small>
+		<button class="btn btn-secondary">Download Album</button>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div *ngFor="let key of imageKeys" class="col-3 card">
+			<img class="card-img-top" [src]="album.images[key]">
+			<!-- <div class="card-body">
+				<h5 class="card-title">Card title</h5>
+				<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+			</div> -->
+			<div class="card-footer">
+				<small class="text-muted">Last updated 3 mins ago</small>
+			</div>
+		</div>
+	</div>
 </div>

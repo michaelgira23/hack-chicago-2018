@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album.model';
 
@@ -11,13 +11,20 @@ import { Album } from '../models/album.model';
 export class AlbumComponent implements OnInit {
 
 	album: Album;
+	imageKeys: string[] = [];
 
-	constructor(private route: ActivatedRouteSnapshot, private albumService: AlbumService) { }
+	constructor(private route: ActivatedRoute, private albumService: AlbumService) { }
 
 	ngOnInit() {
-		this.albumService.getAlbum(this.route.params['shortCode']).subscribe(
+		this.albumService.getAlbum(this.route.snapshot.params['shortCode']).subscribe(
 			album => {
 				this.album = album;
+				console.log('albumerino', this.album);
+				if (this.album) {
+					this.imageKeys = Object.keys(album.images);
+				} else {
+					this.imageKeys = [];
+				}
 				console.log(this.album);
 			},
 			err => {
