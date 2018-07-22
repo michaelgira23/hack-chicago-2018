@@ -1,5 +1,5 @@
 import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
-import { Album, DistanceAlbum } from '../models/album.model';
+import { Album } from '../models/album.model';
 import { Injectable } from '@angular/core';
 import { combineLatest, from, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -27,13 +27,13 @@ export class AlbumService {
 	}
 
 	getAllAlbumsSorted() {
-		return combineLatest(this.locationService.location$, this.getAllAlbums()).pipe<SnapshotAction<DistanceAlbum>[]>(
+		return combineLatest(this.locationService.location$, this.getAllAlbums()).pipe<SnapshotAction<Album>[]>(
 			map(([loc, refs]) => {
-				for (const ref of refs) {
-					const album = ref.payload.val();
-					(album as DistanceAlbum).distance = this.locationService.getDistance(loc, album.location);
-				}
-				refs.sort((a, b) => (a.payload.val() as DistanceAlbum).distance - (b.payload.val() as DistanceAlbum).distance);
+				refs.sort((a, b) => {
+					const aLoc = a.payload.val().location;
+					const bLoc = b.payload.val().location;
+					return this.locationService.getDistance(loc, aLoc) - this.locationService.getDistance(loc, bLoc);
+				});
 				return refs;
 			})
 		);
