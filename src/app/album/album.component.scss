@@ -13,15 +13,11 @@
 }
 
 .album-upload-image {
+	cursor: pointer;
 	font-size: 2rem;
 
 	> * {
 		display: block;
 		text-align: center;
 	}
-}
-
-.album-image,
-.album-upload-image {
-	// max-width: 25rem;
 }

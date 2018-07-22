@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,6 +26,7 @@ import { UploadComponent } from './upload/upload.component';
 	imports: [
 		BrowserModule,
 		routing,
+		FormsModule,
 		ReactiveFormsModule,
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFireDatabaseModule,
