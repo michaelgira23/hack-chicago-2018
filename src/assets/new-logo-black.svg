@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="48.551037mm"
+   height="39.594856mm"
+   viewBox="0 0 48.551037 39.594856"
+   version="1.1"
+   id="svg940"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="New CapShare Logo.svg">
+  <defs
+     id="defs934" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="137.80411"
+     inkscape:cy="62.720479"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:pagecheckerboard="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="746"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata937">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(166.39457,-47.393057)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.51215935px;line-height:1.25;font-family:'Freestyle Script';-inkscape-font-specification:'Freestyle Script';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.46280396;stroke-opacity:1"
+       x="-170.09505"
+       y="78.960136"
+       id="text870"
+       transform="scale(0.96473042,1.036559)"><tspan
+         sodipodi:role="line"
+         id="tspan868"
+         x="-170.09505"
+         y="78.960136"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Freestyle Script';-inkscape-font-specification:'Freestyle Script';stroke:#000000;stroke-width:0.46280396;stroke-opacity:1">CapShare</tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.32291663;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -143.92018,62.220555 h 25.41519 v 21.034376 h -47.22812 v -21.034376 0 h 9.38516"
+       id="path920"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.32291663;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -150.18389,71.015068 c -0.0593,-0.757705 -0.3884,-2.52838 -0.65998,-3.550448 -0.28692,-1.079799 -0.75405,-2.323214 -1.20585,-3.209764 -0.41878,-0.821731 -1.22893,-1.956227 -1.81748,-2.545115 -0.87235,-0.872831 -2.08282,-1.645986 -2.99817,-1.914996 l -0.32567,-0.09572 0.55794,-0.2138 c 1.54257,-0.591111 2.73494,-1.557558 3.77673,-3.06112 1.05769,-1.526508 1.72903,-3.152816 2.22559,-5.391445 0.19684,-0.887405 0.4655,-2.540799 0.4655,-2.864791 0,-0.09343 0.0232,-0.148221 0.0516,-0.121836 0.0284,0.02637 0.0516,0.120225 0.0516,0.208569 0,0.08834 0.0605,0.566277 0.13438,1.062074 0.36933,2.477555 1.03283,4.567385 1.98914,6.265235 1.04536,1.855968 2.58273,3.253241 4.28806,3.897298 l 0.56093,0.211851 -0.40228,0.141658 c -0.60089,0.211588 -1.36146,0.627275 -1.94618,1.063673 -2.32032,1.731746 -3.85017,4.849884 -4.48997,9.15143 -0.0737,0.495796 -0.13444,0.967063 -0.13487,1.047261 -2.9e-4,0.0802 -0.0203,0.191974 -0.0441,0.248396 -0.0278,0.06588 -0.0553,-0.05164 -0.077,-0.328412 z"
+       id="path885"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
