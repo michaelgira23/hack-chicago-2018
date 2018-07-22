@@ -8,20 +8,14 @@
 		<button class="btn btn-secondary">Download Album</button>
 	</div>
 </div>
-<div class="cool-container">
-	<div class="row">
-		<div class="col-6 card">
-			<div class="card-img-top">
-				<i class="fas fa-plus"></i>
-			</div>
-
+<div class="container">
+	<div class="card-columns">
+		<div class="album-upload-image card p-3">
+			<i class="fas fa-cloud-upload"></i>
+			<div>Upload</div>
 		</div>
-		<div *ngFor="let key of imageKeys" class="col-6 card">
+		<div *ngFor="let key of imageKeys" class="album-image card">
 			<img class="card-img-top" [src]="album.images[key]">
-			<!-- <div class="card-body">
-				<h5 class="card-title">Card title</h5>
-				<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			</div> -->
 			<div class="card-footer">
 				<small class="text-muted">Last updated 3 mins ago</small>
 			</div>

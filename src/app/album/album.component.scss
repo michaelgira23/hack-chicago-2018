@@ -11,3 +11,17 @@
 		letter-spacing: 0.03rem;
 	}
 }
+
+.album-upload-image {
+	font-size: 2rem;
+
+	> * {
+		display: block;
+		text-align: center;
+	}
+}
+
+.album-image,
+.album-upload-image {
+	// max-width: 25rem;
+}
