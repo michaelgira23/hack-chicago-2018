@@ -11,6 +11,8 @@ export class HomeComponent implements OnInit {
 
 	albums: DistanceAlbum[] = [];
 
+	albumPhotoCounts: number[] = [];
+
 	constructor(private albumService: AlbumService) {
 	}
 
@@ -19,9 +21,10 @@ export class HomeComponent implements OnInit {
 		.subscribe(
 			albums => {
 				this.albums = [];
-				albums.forEach(action => {
-					this.albums.push(action);
-					console.log(action);
+				this.albumPhotoCounts = [];
+				albums.forEach(album => {
+					this.albums.push(album);
+					this.albumPhotoCounts.push(Object.keys(album.images).length);
 				});
 			},
 		);
