@@ -1,9 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 
+// Your variable overrides
+$body-bg: lighten(#ff7971, 20%);
+
+$theme-colors: (
+	'primary': #e84545
+);
+
+// Bootstrap and its default variables
+@import "../node_modules/bootstrap/scss/bootstrap";
+
 body {
 	padding-bottom: 6rem;
 	font-family: 'Assistant', sans-serif;
-	background-color: lighten(#ff7971, 20%);
 }
 
 .cool-container {
@@ -26,5 +35,26 @@ body {
 
 .title {
 	margin-bottom: 1.25rem;
+	text-align: center;
 	font-family: 'Baloo', sans-serif;
+}
+
+.btn-primary {
+	position: relative;
+	top: 0;
+	transition: top 100ms ease-out, box-shadow 100ms ease-out;
+
+	border: none;
+	border-bottom: 3px solid #af001d;
+	box-shadow: 0 4px #af001d;
+
+	&:hover {
+		top: 2px;
+		box-shadow: 0 2px #af001d;
+	}
+
+	&:active, &:disabled {
+		top: 6px;
+		box-shadow: none;
+	}
 }
