@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AlbumService } from '../services/album.service';
-import { Album } from '../models/model.service';
+import { Album } from '../models/album.model';
 
 @Component({
   selector: 'app-create',
