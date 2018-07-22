@@ -1,5 +1,5 @@
-<ng-container *ngIf="album">
-	<div class="cool-container bounceInDown">
+<div *ngIf="album" class="bounceInDown" >
+	<div class="cool-container">
 		<a class="back" routerLink="/find">
 			<i class="fas fa-angle-left"></i> Back
 		</a>
@@ -9,7 +9,7 @@
 			<button *ngIf="!passcode" (click)="downloadZip()" class="download btn btn-secondary">Download Album</button>
 		</div>
 	</div>
-	<div *ngIf="passcode" class="cool-container bounceInDown">
+	<div *ngIf="passcode" class="cool-container">
 		<form [formGroup]="passcodeForm" (ngSubmit)="checkPasscode()">
 			<div class="form-group">
 				<label for="passcodeInput">Passcode</label>
@@ -20,7 +20,7 @@
 			</button>
 		</form>
 	</div>
-	<div class="container bounceInDown" *ngIf="!passcode">
+	<div class="container" *ngIf="!passcode">
 		<div class="container">
 			<div class="card-columns">
 				<div class="album-upload-image card p-3" [routerLink]="['/upload', album.shortCode]">
@@ -36,4 +36,4 @@
 			</div>
 		</div>
 	</div>
-</ng-container>
+</div>
