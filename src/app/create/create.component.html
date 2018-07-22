@@ -10,13 +10,20 @@
 				   formControlName="name" required>
 		</div>
 
+		<div class="form-group">
+			<label for="passcode">Passcode (optional)</label>
+			<input type="password" class="form-control" id="passcode"
+					formControlName="passcode">
+		</div>
+
 		<div class="form-group form-check">
 			<input type="checkbox" class="form-check-input" id="discoverableCheck"
-				   formControlName="discoverable">
-			<label class="form-check-label" for="discoverableCheck">Discoverable nearby</label>
+					formControlName="discoverable">
+			<label for="discoverableCheck">Discoverable nearby</label>
 		</div>
+
 		<button type="submit" class="btn btn-primary btn-lg btn-block"
-				[disabled]="!createAlbumForm.valid">
+				[disabled]="!createAlbumForm.valid || !createAlbumForm.touched">
 			<i class="fas fa-plus"></i> Create
 		</button>
 	</form>

@@ -1,14 +1,14 @@
-<div class="cool-container">
+<div class="cool-container" *ngIf="album">
 	<a class="back" routerLink="/">
 		<i class="fas fa-angle-left"></i> Back
 	</a>
 	<div class="title">
-		<h1 class="title-title">Album Name</h1>
+		<h1 class="title-title">{{ album.name }}</h1>
 		<small class="subtitle text-muted">Mary Institute and Saint Louis Country Say School</small>
 		<button class="btn btn-secondary">Download Album</button>
 	</div>
 </div>
-<div class="container">
+<div class="container" *ngIf="album">
 	<div class="card-columns">
 		<div class="album-upload-image card p-3">
 			<i class="fas fa-cloud-upload"></i>
