@@ -45,16 +45,19 @@ body {
 	transition: top 100ms ease-out, box-shadow 100ms ease-out;
 
 	border: none;
-	border-bottom: 3px solid #af001d;
 	box-shadow: 0 4px #af001d;
 
-	&:hover {
-		top: 2px;
-		box-shadow: 0 2px #af001d;
+	// &:hover {
+	// 	top: 2px;
+	// 	box-shadow: 0 2px #af001d;
+	// }
+
+	&:focus {
+		box-shadow: none;
 	}
 
 	&:active, &:disabled {
 		top: 6px;
-		box-shadow: none;
+		box-shadow: none !important;
 	}
 }
