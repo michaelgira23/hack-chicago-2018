@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+
+.cool-container {
+	max-width: 20rem;
+	margin: 0 auto;
+}
+
+.back {
+	margin-left: 33.369%;
+	padding-top: 2rem;
+	color: #212529;
+
+	&:hover {
+		color: #212529;
+		text-decoration: none;
+	}
+}
