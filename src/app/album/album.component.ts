@@ -4,6 +4,7 @@ import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album.model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { saveAs } from 'file-saver';
+import * as moment from 'moment';
 
 @Component({
 	selector: 'app-album',
@@ -58,6 +59,10 @@ export class AlbumComponent implements OnInit {
 				console.log(err);
 			}
 		);
+	}
+
+	timeSince(date: Date | moment.Moment) {
+		return moment(date).fromNow();
 	}
 
 }

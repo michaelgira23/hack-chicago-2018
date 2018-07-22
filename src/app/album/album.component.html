@@ -30,7 +30,7 @@
 				<div *ngFor="let key of imageKeys" class="card">
 					<img class="card-img-top" [src]="album.images[key]">
 					<div class="card-footer">
-						<small class="text-muted">Last updated 3 mins ago</small>
+						<small class="text-muted">Uploaded {{ timeSince(album.created) }}</small>
 					</div>
 				</div>
 			</div>
