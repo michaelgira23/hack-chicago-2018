@@ -1,7 +1,7 @@
 import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album, DistanceAlbum } from '../models/album.model';
 import { Injectable} from '@angular/core';
-import { Observable, Subject, combineLatest, forkJoin, from } from 'rxjs';
+import { Observable, Subject, combineLatest, forkJoin, throwError, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
@@ -79,7 +79,22 @@ export class AlbumService {
 		return combineLatest(
 			this.getAlbumAction(shortCode),
 			this.checkPasscode(shortCode, passcode),
-			this.observableToPromise(rootRef.child(`testeststest-${Date.now()}`).put(file))
+			this.observableToPromise(rootRef.child(`${Date.now()}-${file.name}`).put(file))
+		).pipe(
+			switchMap(([action, passMatch, uploadedImages]) => {
+				if (!passMatch) {
+					throwError(new Error('Passcodes do not match!'));
+				}
+				return Observable.create(observer => {
+					uploadedImages.ref.getDownloadURL().then(
+						url => {
+							observer.next(url);
+							observer.complete();
+						},
+						err => observer.error(err)
+					);
+				});
+			})
 		);
 	}
 
