@@ -6,14 +6,17 @@
 	<form [formGroup]="createAlbumForm" (ngSubmit)="onSubmit()">
 		<div class="form-group">
 			<label for="albumName">Album Name</label>
-			<input type="text" class="form-control" id="albumName" placeholder="Party Photos" formControlName="name" required>
+			<input type="text" class="form-control" id="albumName" placeholder="Party Photos"
+				   formControlName="name" required>
 		</div>
 
 		<div class="form-group form-check">
-			<input type="checkbox" class="form-check-input" id="discoverableCheck" formControlName="discoverable">
+			<input type="checkbox" class="form-check-input" id="discoverableCheck"
+				   formControlName="discoverable">
 			<label class="form-check-label" for="discoverableCheck">Discoverable nearby</label>
 		</div>
-		<button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="!createAlbumForm.valid">
+		<button type="submit" class="btn btn-primary btn-lg btn-block"
+				[disabled]="!createAlbumForm.valid">
 			<i class="fas fa-plus"></i> Create
 		</button>
 	</form>

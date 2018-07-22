@@ -4,12 +4,13 @@ import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album.model';
 
 @Component({
-  selector: 'app-album',
-  templateUrl: './album.component.html',
-  styleUrls: ['./album.component.scss']
+	selector: 'app-album',
+	templateUrl: './album.component.html',
+	styleUrls: ['./album.component.scss']
 })
 export class AlbumComponent implements OnInit {
 
+<<<<<<< HEAD
 	album: Album;
 
   constructor(private route: ActivatedRouteSnapshot, private albumService: AlbumService) { }
@@ -25,5 +26,12 @@ export class AlbumComponent implements OnInit {
 		}
 	);
   }
+=======
+	constructor() {
+	}
+
+	ngOnInit() {
+	}
+>>>>>>> c67abe05f3a3eea1ae59977598fb5acd17cdf8a3
 
 }
