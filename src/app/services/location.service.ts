@@ -7,7 +7,7 @@ import { Location } from '../models/location.model';
 })
 export class LocationService {
 
-	location$ = new BehaviorSubject<Location>(null);
+	location$ = new BehaviorSubject<Location>({ longitude: 0, latitude: 0 });
 
 	constructor() {
 		navigator.geolocation.getCurrentPosition(
