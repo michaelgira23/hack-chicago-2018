@@ -26,7 +26,7 @@ export class CreateComponent implements OnInit {
 		this.albumService.createAlbum(this.createAlbumForm.value).subscribe(
 			album => {
 				this.router.navigate(['/upload', album.shortCode]);
-				localStorage.setItem(`album-${album.name}-${album.created.getTime()}`, album.passcode);
+				localStorage.setItem(`album-${album.name}-${new Date(album.created).getTime()}`, album.passcode);
 			},
 			err => {
 				console.log(err);
