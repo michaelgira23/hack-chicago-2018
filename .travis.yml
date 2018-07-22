@@ -7,5 +7,8 @@ install:
 script:
   - npm run lint
   - npm run build:prod
-after_success:
-  - firebase deploy - project hack-chicago-2018 - token $FIREBASE_TOKEN.
+deploy:
+  provider: firebase
+  token:
+    secure: $FIREBASE_TOKEN
+  project: "hack-chicago-2018"
