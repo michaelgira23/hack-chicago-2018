@@ -1,11 +1,14 @@
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album, DistanceAlbum } from '../models/album.model';
 import { Injectable } from '@angular/core';
-import { combineLatest, from, zip } from 'rxjs';
+import { combineLatest, forkJoin, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
 import { AngularFireStorage } from 'angularfire2/storage';
+import * as JSZip from 'jszip';
+import { HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
 	providedIn: 'root'
@@ -15,16 +18,26 @@ export class AlbumService {
 	constructor(
 		private db: AngularFireDatabase,
 		private locationService: LocationService,
-		private storage: AngularFireStorage
+		private storage: AngularFireStorage,
+		private http: HttpClient,
+		private date: DatePipe
 	) {	}
 
 	getAllAlbums() {
 		return this.db.list<Album>('albums').valueChanges();
 	}
 
+	getAlbumAction(shortCode: string) {
+		return this.db.list<Album>(
+			'albums', r => r.orderByChild('shortCode').equalTo(shortCode)
+		).snapshotChanges().pipe<SnapshotAction<Album>>(
+			map(actions => actions[0])
+		);
+	}
+
 	getAlbum(shortCode: string) {
-		return this.getAllAlbums().pipe<Album | undefined>(
-			map(albums => albums.find(a => a.shortCode === shortCode))
+		return this.getAlbumAction(shortCode).pipe(
+			map(action => action.payload.val())
 		);
 	}
 
@@ -64,19 +77,47 @@ export class AlbumService {
 		);
 	}
 
-	addImagesToAlbum(id: string, images: File[]) {
-		return zip<string>(images.map(image => {
-			const fileRef = this.storage.ref(`${Date.now()}-${image.name}`);
-			fileRef.put(image);
+	addImagesToAlbum(shortCode: string, images: File[]) {
+		return forkJoin([
+			this.getAlbumAction(shortCode),
+			...images.map(image => {
+				const fileRef = this.storage.ref(`${Date.now()}-${image.name}`);
+				fileRef.put(image);
 
-			return fileRef.getDownloadURL();
-		})).pipe(
-			switchMap(urls => {
+				return fileRef.getDownloadURL();
+			})
+		]).pipe(
+			switchMap(([action, ...urls]) => {
 				const urlMap: { [timestamp: number]: string } = {};
 				for (const url of urls) {
-					urlMap[Date.now()] = url;
+					urlMap[Date.now()] = url as string;
 				}
-				return this.db.object<Album>(`albums/${id}/images`).update(urlMap);
+				return this.db.object(`albums/${(action as SnapshotAction<Album>).key}/images`).update(urlMap);
+			})
+		);
+	}
+
+	downloadAllImagesZip(shortCode: string) {
+		let albumName: string;
+		const urls: string[] = [];
+
+		return this.getAlbum(shortCode).pipe(
+			switchMap(album => {
+				albumName = album.name;
+				return forkJoin(Object.values(album.images).map(url => {
+					urls.push(url);
+					return this.http.get(url, { responseType: 'blob' });
+				}));
+			}),
+			switchMap(blobs => {
+				const zip = new JSZip();
+				const folder = zip.folder('Photos');
+
+				for (let i = 0; i < blobs.length; i++) {
+					folder.file(urls[i], blobs[i]);
+				}
+
+				return zip.generateAsync({ type: 'blob' });
 			})
 		);
 	}

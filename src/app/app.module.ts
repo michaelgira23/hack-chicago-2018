@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -25,7 +26,8 @@ import { CreateComponent } from './create/create.component';
 		ReactiveFormsModule,
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFireDatabaseModule,
-		AngularFireStorageModule
+		AngularFireStorageModule,
+		HttpClientModule
 	],
 	providers: [appRoutingProviders],
 	bootstrap: [AppComponent]
