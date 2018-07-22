@@ -1,17 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 
+body {
+	padding-bottom: 6rem;
+	font-family: 'Assistant', sans-serif;
+	background-color: lighten(#ff7971, 20%);
+}
+
 .cool-container {
 	max-width: 20rem;
 	margin: 0 auto;
 }
 
 .back {
-	margin-left: 33.369%;
+	display: block;
+	margin: 1rem 0;
 	padding-top: 2rem;
-	color: #212529;
+	color: var(--gray);
+	font-size: 1.25rem;
 
 	&:hover {
-		color: #212529;
+		color: var(--gray);
 		text-decoration: none;
 	}
+}
+
+.title {
+	margin-bottom: 1.25rem;
+	font-family: 'Baloo', sans-serif;
 }
