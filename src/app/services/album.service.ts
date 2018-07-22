@@ -124,7 +124,8 @@ export class AlbumService {
 				const folder = jszip.folder('Photos');
 
 				for (let i = 0; i < blobs.length; i++) {
-					folder.file(urls[i], blobs[i]);
+					const pathArr = new URL(urls[i]).pathname.split('/');
+					folder.file(pathArr[pathArr.length - 1], blobs[i]);
 				}
 
 				return jszip.generateAsync({ type: 'blob' });

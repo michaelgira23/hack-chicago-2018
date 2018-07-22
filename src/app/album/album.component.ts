@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album.model';
+import { saveAs } from 'file-saver';
 
 @Component({
 	selector: 'app-album',
@@ -25,6 +26,17 @@ export class AlbumComponent implements OnInit {
 					this.imageKeys = [];
 				}
 				console.log(this.album);
+			},
+			err => {
+				console.log(err);
+			}
+		);
+	}
+
+	downloadZip() {
+		this.albumService.downloadAllImagesZip(this.route.snapshot.params['shortCode']).subscribe(
+			zipBlob => {
+				saveAs(zipBlob, this.album.name.replace(/ /g, '-') + '.zip');
 			},
 			err => {
 				console.log(err);
