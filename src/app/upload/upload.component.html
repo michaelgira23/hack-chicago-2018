@@ -2,16 +2,31 @@
 	<a class="back" routerLink="/">
 		<i class="fas fa-angle-left"></i> Back
 	</a>
+	
+	
 	<h1 class="title">Upload to {{ album ? album.name : 'Album' }}</h1>
-	<form (submit)="upload()">
+	<div *ngIf="requirePasscode" class="cool-container">
+		<form [formGroup]="passcodeForm" (ngSubmit)="checkPasscode()">
+			<div class="form-group">
+				<label for="passcodeInput">Passcode</label>
+				<input formControlName="passcode" type="password" class="form-control" id="passcodeInput" placeholder="Super Secret" required>
+			</div>
+			<button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="!passcodeForm.valid">
+				<i class="fas fa-cloud-upload"></i> Submit
+			</button>
+		</form>
+	</div>
+	<div *ngIf="!requirePasscode" class="">
+		<form (submit)="upload()">
 
-		<input #pictures type="file" class="pictures form-control-file" name="pictures" [(ngModel)]="files" multiple>
+			<input #pictures type="file" class="pictures form-control-file" name="pictures" [(ngModel)]="files" multiple>
 
-		<button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="uploading">
-			<i class="fas fa-cloud-upload"></i> Upload
-		</button>
-		<a [routerLink]="['/album', album?.shortCode]" class="btn btn-secondary btn-lg btn-block">
-			<i class="fas fa-images"></i> View
-		</a>
-	</form>
+			<button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="uploading">
+				<i class="fas fa-cloud-upload"></i> Upload
+			</button>
+			<a [routerLink]="['/album', album?.shortCode]" class="btn btn-secondary btn-lg btn-block">
+				<i class="fas fa-images"></i> View
+			</a>
+		</form>
+	</div>
 </div>

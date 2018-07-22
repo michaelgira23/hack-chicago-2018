@@ -31,7 +31,7 @@ export class AlbumComponent implements OnInit {
 				} else {
 					this.imageKeys = [];
 				}
-				if (this.album.passcode.length === 0) {
+				if (this.album.passcode.length === 0 || !this.album.privateView) {
 					this.passcode = false;
 				}
 				console.log(this.album);

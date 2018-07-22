@@ -17,7 +17,6 @@ export class AppComponent implements OnInit {
 		this.router.events.subscribe((
 			(event: RouterEvent) => {
 				if (event instanceof NavigationStart) {
-					console.log(event);
 					if (event.url === '/') {
 					} else {
 						if (this.router.routerState.snapshot.url !== '') {
