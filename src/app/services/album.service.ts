@@ -1,14 +1,12 @@
 import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album, DistanceAlbum } from '../models/album.model';
-import { Injectable, Inject } from '@angular/core';
-import { Observable, Subject, combineLatest, forkJoin, from, throwError, zip } from 'rxjs';
+import { Injectable} from '@angular/core';
+import { Observable, Subject, combineLatest, forkJoin, from } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
-import { AngularFireStorage } from 'angularfire2/storage';
 import * as JSZip from 'jszip';
 import { HttpClient } from '@angular/common/http';
-import { UploadTaskSnapshot } from 'angularfire2/storage/interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -72,32 +70,6 @@ export class AlbumService {
 				};
 				return from(this.db.list<Album>('albums').push(album).then())
 					.pipe(map(() => album));
-			})
-		);
-	}
-
-	addImagesToAlbum(shortCode: string, passcode: string, images: File[]) {
-		const rootRef = firebase.storage().ref();
-		return zip([
-			this.getAlbumAction(shortCode),
-			this.checkPasscode(shortCode, passcode),
-			...images.map(image => {
-				// const fileRef = rootRef.child(`${Date.now()}-${image.name}`);
-				// return from(fileRef.put(image).then(() => fileRef.getDownloadURL()));
-				return this.observableToPromise(rootRef.child(`${Date.now()}-${image.name}`).put(image));
-			})
-		]).pipe(
-			switchMap(([action, passMatch, ...uploadedImages]) => {
-				console.log('hello?'); // TODO: This isn't firing :^)
-				if (!passMatch) {
-					throwError(new Error('Passcodes do not match!'));
-				}
-
-				const urlMap: { [timestamp: number]: string } = {};
-				for (const uploadedImage of uploadedImages) {
-					urlMap[Date.now()] = uploadedImage.metadata.downloadURLs[0];
-				}
-				return this.db.object(`albums/${(action as SnapshotAction<Album>).key}/images`).update(urlMap);
 			})
 		);
 	}
