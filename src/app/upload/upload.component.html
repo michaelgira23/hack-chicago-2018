@@ -5,7 +5,7 @@
 	<h1 class="title">Upload to {{ album ? album.name : 'Album' }}</h1>
 	<form (submit)="upload()">
 
-		<input #pictures type="file" class="pictures form-control-file" name="pictures" [(ngModel)]="files" multiple>
+		<input #pictures type="file" class="pictures form-control-file" name="pictures" [(ngModel)]="files" accept="image/*" multiple>
 
 		<button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="uploading">
 			<i class="fas fa-cloud-upload"></i> Upload
