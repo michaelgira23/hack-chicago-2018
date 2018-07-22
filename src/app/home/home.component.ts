@@ -1,25 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../services/album.service';
 import { DistanceAlbum } from '../models/album.model';
-import {
-	trigger,
-	state,
-	style,
-	animate,
-	transition
-} from '@angular/animations';
 
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
-	styleUrls: ['./home.component.scss'],
-	animations: [
-		trigger('flash', [
-			state('in', style({
-
-			}))
-		])
-	]
+	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
 
@@ -38,7 +24,7 @@ export class HomeComponent implements OnInit {
 				this.albumPhotoCounts = [];
 				albums.forEach(album => {
 					this.albums.push(album);
-					this.albumPhotoCounts.push(Object.keys(album.images).length);
+					this.albumPhotoCounts.push(Object.keys(album.images || []).length);
 				});
 			},
 		);

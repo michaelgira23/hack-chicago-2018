@@ -1,13 +1,13 @@
-<div class="cool-container">
+<div class="cool-container bounceInDown">
 	<h1 class="title display-4">
-		<img id="logo" src="assets/new-logo-primary.svg" alt="CapShare Icon"> CapShare
+		<img class="" id="logo" src="assets/new-logo-primary.svg" alt="CapShare Icon">
 		<p class="lead">
 			Next time, only one of you needs to take the group photo!
 		</p>
 	</h1>
 	<h2>Find Albums</h2>
 	<ul class="albums list-group">
-		<a *ngFor="let album of albums; let i = index" href="#" class="list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['album', albums[i].shortCode]">
+		<a *ngFor="let album of albums; let i = index" class="list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['/album', albums[i].shortCode]">
 			<div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1">
 					{{album.name}}

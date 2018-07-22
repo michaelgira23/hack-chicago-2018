@@ -16,7 +16,7 @@ export class AlbumService {
 	constructor(
 		private db: AngularFireDatabase,
 		private locationService: LocationService,
-		private http: HttpClient
+		private http: HttpClient,
 	) {	}
 
 	getAllAlbums() {
@@ -119,14 +119,14 @@ export class AlbumService {
 				}));
 			}),
 			switchMap(blobs => {
-				const jzip = new JSZip();
-				const folder = jzip.folder('Photos');
+				const jszip = new JSZip();
+				const folder = jszip.folder('Photos');
 
 				for (let i = 0; i < blobs.length; i++) {
 					folder.file(urls[i], blobs[i]);
 				}
 
-				return jzip.generateAsync({ type: 'blob' });
+				return jszip.generateAsync({ type: 'blob' });
 			})
 		);
 	}

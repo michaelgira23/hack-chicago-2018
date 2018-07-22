@@ -20,7 +20,7 @@ export class AlbumComponent implements OnInit {
 			album => {
 				this.album = album;
 				if (this.album) {
-					this.imageKeys = Object.keys(album.images);
+					this.imageKeys = Object.keys(album.images || []);
 				} else {
 					this.imageKeys = [];
 				}

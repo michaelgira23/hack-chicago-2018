@@ -1,0 +1,19 @@
+.flash {
+	position: absolute;
+	transform: scale(1.76);
+	left: 356px;
+	top: 67px;
+	transform-origin: (50%, 50%);
+	transition: transform 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+	opacity: 0;
+
+	&.in {
+		opacity: 1;
+		transform: scale(70);
+	}
+
+	&.hidden {
+		display: none;
+	}
+}
+
