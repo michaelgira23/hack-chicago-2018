@@ -7,14 +7,33 @@
 		<div class="form-group">
 			<label for="albumName">Album Name</label>
 			<input type="text" class="form-control" id="albumName" placeholder="Party Photos"
-				   formControlName="name" required>
+					 formControlName="name" required>
 		</div>
 
 		<div class="form-group">
 			<label for="passcode">Passcode (optional)</label>
-			<input type="password" class="form-control" id="passcode"
-					formControlName="passcode">
+			<input #passcode type="password" class="form-control" id="passcode" placeholder="Super Secret!"
+				formControlName="passcode">
 		</div>
+
+		<ng-container *ngIf="passcode.value.length > 0">
+			<strong>Require passcode for:</strong>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" id="uploadRadio" formControlName="privateView" [value]="false">
+				<label class="form-check-label" for="uploadRadio">
+					Uploading Images
+				</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="radio" id="uploadViewRadio" formControlName="privateView" [value]="true">
+				<label class="form-check-label" for="uploadViewRadio">
+					Viewing & Uploading Images
+				</label>
+			</div>
+		</ng-container>
+
+		<!-- {{ createAlbumForm.value | json }} -->
+		<br>
 
 		<div class="form-group form-check">
 			<input type="checkbox" class="form-check-input" id="discoverableCheck"
@@ -22,11 +41,11 @@
 			<label for="discoverableCheck">Discoverable nearby</label>
 		</div>
 
-		<div class="form-group form-check">
+		<!-- <div class="form-group form-check">
 			<input type="checkbox" class="form-check-input" id="privateViewCheck"
-				   formControlName="privateView">
+					 formControlName="privateView">
 			<label for="privateViewCheck">Passcode required to view</label>
-		</div>
+		</div> -->
 
 		<button type="submit" class="btn btn-primary btn-lg btn-block"
 				[disabled]="!createAlbumForm.valid">
