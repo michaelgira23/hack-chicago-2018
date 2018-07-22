@@ -10,7 +10,6 @@ export class AppComponent implements OnInit {
 	title = 'app';
 
 	flashIn = false;
-	flashHidden = false;
 
 	constructor(private router: Router) {}
 
@@ -20,17 +19,11 @@ export class AppComponent implements OnInit {
 				if (event instanceof NavigationStart) {
 					console.log(event);
 					if (event.url === '/') {
-						setTimeout(() => {
-							this.flashHidden = false;
-						}, 1000);
 					} else {
-						this.flashHidden = true;
 						if (this.router.routerState.snapshot.url !== '') {
 							this.flashIn = true;
-							this.flashHidden = false;
 							setTimeout(() => {
 								this.flashIn = false;
-								this.flashHidden = true;
 							}, 500);
 						}
 					}

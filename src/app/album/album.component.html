@@ -1,24 +1,26 @@
-<div class="cool-container bounceInDown" *ngIf="album">
-	<a class="back" routerLink="/">
-		<i class="fas fa-angle-left"></i> Back
-	</a>
-	<div class="title">
-		<h1 class="title-title">{{ album.name }}</h1>
-		<small class="subtitle text-muted">TechNexus</small>
-		<button class="btn btn-secondary">Download Album</button>
-	</div>
-</div>
-<div class="container bounceInDown" *ngIf="album">
-	<div class="card-columns">
-		<div class="album-upload-image card p-3" [routerLink]="['/upload', album.shortCode]">
-			<i class="fas fa-cloud-upload"></i>
-			<div>Upload</div>
+<ng-container *ngIf="album">
+	<div class="cool-container bounceInDown">
+		<a class="back" routerLink="/">
+			<i class="fas fa-angle-left"></i> Back
+		</a>
+		<div class="title">
+			<h1 class="title-title">{{ album.name }}</h1>
+			<small class="subtitle text-muted">TechNexus</small>
+			<button class="btn btn-secondary">Download Album</button>
 		</div>
-		<div *ngFor="let key of imageKeys" class="card">
-			<img class="card-img-top" [src]="album.images[key]">
-			<div class="card-footer">
-				<small class="text-muted">Last updated 3 mins ago</small>
+	</div>
+	<div class="container bounceInDown">
+		<div class="card-columns">
+			<div class="album-upload-image card p-3" [routerLink]="['/upload', album.shortCode]">
+				<i class="fas fa-cloud-upload"></i>
+				<div>Upload</div>
+			</div>
+			<div *ngFor="let key of imageKeys" class="card">
+				<img class="card-img-top" [src]="album.images[key]">
+				<div class="card-footer">
+					<small class="text-muted">Last updated 3 mins ago</small>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</ng-container>

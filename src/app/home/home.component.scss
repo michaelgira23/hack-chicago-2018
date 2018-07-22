@@ -10,12 +10,24 @@
 	font-family: 'Baloo', sans-serif;
 }
 
-.title,
-.albums {
-	margin-bottom: 2.5rem;
-}
 
 #logo {
 	width: 100%;
 }
+
+// .badge {
+// 	position: absolute;
+// 	top: 0;
+// 	right: 0;
+// }
+
+.album-distance {
+	line-height: 2em;
+}
+
+.albums-container {
+	margin-bottom: 2.5rem;
+	padding: 1.5rem 0;
+}
+
   
