@@ -8,3 +8,7 @@ export interface Album {
 	name: string;
 	discoverable: boolean;
 }
+
+export interface DistanceAlbum extends Album {
+	distance: number;
+}

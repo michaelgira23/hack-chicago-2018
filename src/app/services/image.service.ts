@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Image } from '../models/image.model';
 import { switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
+import { from } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,11 +18,11 @@ export class ImageService {
 		const fileRef = this.storage.ref(`${Date.now()}-${image.name}`);
 		const task = fileRef.put(image);
 
-		return fileRef.getDownloadURL().pipe<AngularFireList<Image>>(
-			switchMap(url => this.db.list<Image>('images').push({
+		return fileRef.getDownloadURL().pipe(
+			switchMap(url => from<firebase.database.Reference>(this.db.list<Image>('images').push({
 				link: url,
 				created: firebase.database.ServerValue.TIMESTAMP as any
-			}))
+			}).then()))
 		);
 	}
 
