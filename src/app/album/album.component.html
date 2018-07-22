@@ -6,7 +6,7 @@
 		<div class="title">
 			<h1 class="title-title">{{ album.name }}</h1>
 			<small class="subtitle text-muted">TechNexus</small>
-			<button *ngIf="!passcode" class="download btn btn-secondary">Download Album</button>
+			<button *ngIf="!passcode" (click)="downloadZip()" class="download btn btn-secondary">Download Album</button>
 		</div>
 	</div>
 	<div *ngIf="passcode" class="cool-container bounceInDown">
