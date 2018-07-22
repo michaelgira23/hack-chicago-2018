@@ -1,7 +1,10 @@
 <div class="cool-container">
-
-
-	<h1 class="title display-4"><img id="logo" src="assets/new-logo-primary.svg" alt="CapShare Icon"> CapShare</h1>
+	<h1 class="title display-4">
+		<img id="logo" src="assets/new-logo-primary.svg" alt="CapShare Icon"> CapShare
+		<p class="lead">
+			Next time, only one of you needs to take the group photo!
+		</p>
+	</h1>
 	<h2>Find Albums</h2>
 	<ul class="albums list-group">
 		<a *ngFor="let album of albums; let i = index" href="#" class="list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['album', albums[i].shortCode]">

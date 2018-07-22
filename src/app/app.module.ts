@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -29,7 +30,8 @@ import { UploadComponent } from './upload/upload.component';
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFireDatabaseModule,
 		AngularFireStorageModule,
-		HttpClientModule
+		HttpClientModule,
+		BrowserAnimationsModule
 	],
 	providers: [appRoutingProviders],
 	bootstrap: [AppComponent]
