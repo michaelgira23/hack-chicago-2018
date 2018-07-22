@@ -21,8 +21,14 @@ export class CreateComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.createAlbumForm.value)
-    this.albumService.createAlbum(this.createAlbumForm.value)
+	this.albumService.createAlbum(this.createAlbumForm.value).subscribe(
+		ref => {
+			console.log('created new album');
+		},
+		err => {
+			console.log(err);
+		}
+	);
   }
 
 }

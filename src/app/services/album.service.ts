@@ -1,6 +1,7 @@
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Album } from '../models/album.model';
 import { Injectable } from '@angular/core';
+import { from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
@@ -27,7 +28,7 @@ export class AlbumService {
                 passcode: options.passcode,
                 location
             };
-            return this.db.list<Album>('albums').push(album);
+            return from(this.db.list<Album>('albums').push(album));
         })
     );
   }
