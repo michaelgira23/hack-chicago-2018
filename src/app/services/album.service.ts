@@ -25,10 +25,10 @@ export class AlbumService {
                 discoverable: options.discoverable,
                 created: firebase.database.ServerValue.TIMESTAMP as any,
                 images: {},
-                passcode: options.passcode,
+                passcode: options.passcode || '',
                 location
             };
-            return from(this.db.list<Album>('albums').push(album));
+            return from(this.db.list<Album>('albums').push(album).then());
         })
     );
   }

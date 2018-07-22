@@ -12,7 +12,7 @@ export class CreateComponent implements OnInit {
 
   createAlbumForm = new FormGroup({
     name: new FormControl(''),
-    discoverable: new FormControl('')
+    discoverable: new FormControl(true)
   });
 
   constructor(private albumService: AlbumService) { }
