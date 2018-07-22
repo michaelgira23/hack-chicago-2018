@@ -1,7 +1,7 @@
 import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album, DistanceAlbum } from '../models/album.model';
-import { Injectable } from '@angular/core';
-import { combineLatest, forkJoin, from, throwError, zip } from 'rxjs';
+import { Injectable, Inject } from '@angular/core';
+import { Observable, Subject, combineLatest, forkJoin, from, throwError, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
@@ -82,23 +82,29 @@ export class AlbumService {
 			this.getAlbumAction(shortCode),
 			this.checkPasscode(shortCode, passcode),
 			...images.map(image => {
-				const fileRef = rootRef.child(`${Date.now()}-${image.name}`);
-				return from(fileRef.put(image).then(() => fileRef.getDownloadURL()));
+				// const fileRef = rootRef.child(`${Date.now()}-${image.name}`);
+				// return from(fileRef.put(image).then(() => fileRef.getDownloadURL()));
+				return this.observableToPromise(rootRef.child(`${Date.now()}-${image.name}`).put(image));
 			})
 		]).pipe(
-			switchMap(([action, passMatch, ...urls]) => {
+			switchMap(([action, passMatch, ...uploadedImages]) => {
 				console.log('hello?'); // TODO: This isn't firing :^)
 				if (!passMatch) {
 					throwError(new Error('Passcodes do not match!'));
 				}
 
 				const urlMap: { [timestamp: number]: string } = {};
-				for (const url of urls) {
-					urlMap[Date.now()] = url as string;
+				for (const uploadedImage of uploadedImages) {
+					urlMap[Date.now()] = uploadedImage.metadata.downloadURLs[0];
 				}
 				return this.db.object(`albums/${(action as SnapshotAction<Album>).key}/images`).update(urlMap);
 			})
 		);
+	}
+
+	addImageToAlbum(file: File) {
+		const rootRef = firebase.storage().ref();
+		return this.observableToPromise(rootRef.child(`testeststest-${Date.now()}`).put(file));
 	}
 
 	downloadAllImagesZip(shortCode: string) {
@@ -131,6 +137,23 @@ export class AlbumService {
 			map(a => a.passcode === passcode)
 		);
 	}
+
+	private observableToPromise(promise): Observable<any> {
+
+		const subject = new Subject<any>();
+
+		promise
+			.then(res => {
+					subject.next(res);
+					subject.complete();
+				},
+				err => {
+					subject.error(err);
+					subject.complete();
+				});
+
+		return subject.asObservable();
+}
 
 }
 
