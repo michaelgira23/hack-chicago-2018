@@ -10,28 +10,20 @@ import { Album } from '../models/album.model';
 })
 export class AlbumComponent implements OnInit {
 
-<<<<<<< HEAD
 	album: Album;
 
-  constructor(private route: ActivatedRouteSnapshot, private albumService: AlbumService) { }
-
-  ngOnInit() {
-	this.albumService.getAlbum(this.route.params['id']).subscribe(
-		album => {
-			this.album = album;
-			console.log(this.album);
-		},
-		err => {
-			console.log(err);
-		}
-	);
-  }
-=======
-	constructor() {
-	}
+	constructor(private route: ActivatedRouteSnapshot, private albumService: AlbumService) { }
 
 	ngOnInit() {
+		this.albumService.getAlbum(this.route.params['id']).subscribe(
+			album => {
+				this.album = album;
+				console.log(this.album);
+			},
+			err => {
+				console.log(err);
+			}
+		);
 	}
->>>>>>> c67abe05f3a3eea1ae59977598fb5acd17cdf8a3
 
 }
