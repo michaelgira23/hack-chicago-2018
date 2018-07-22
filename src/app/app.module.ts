@@ -28,7 +28,8 @@ import { CreateComponent } from './create/create.component';
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFireDatabaseModule,
 		AngularFireStorageModule,
-		HttpClientModule
+		HttpClientModule,
+		HttpModule
 	],
 	providers: [appRoutingProviders],
 	bootstrap: [AppComponent]
