@@ -38,7 +38,11 @@ export class HomeComponent implements OnInit {
 				this.albumPhotoCounts = [];
 				albums.forEach(album => {
 					this.albums.push(album);
-					this.albumPhotoCounts.push(Object.keys(album.images).length);
+					if (album.images) {
+						this.albumPhotoCounts.push(Object.keys(album.images).length);
+					} else {
+						this.albumPhotoCounts.push(0);
+					}
 				});
 			},
 		);

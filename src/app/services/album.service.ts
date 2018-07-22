@@ -1,8 +1,8 @@
 import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album, DistanceAlbum } from '../models/album.model';
 import { Injectable } from '@angular/core';
-import { combineLatest, forkJoin, from, throwError, zip } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, combineLatest, forkJoin, from, throwError, zip } from 'rxjs';
+import { finalize, map, switchMap, tap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
 import { AngularFireStorage } from 'angularfire2/storage';
@@ -18,7 +18,8 @@ export class AlbumService {
 	constructor(
 		private db: AngularFireDatabase,
 		private locationService: LocationService,
-		private http: HttpClient
+		private storage: AngularFireStorage,
+		private http: HttpClient,
 	) {	}
 
 	getAllAlbums() {
@@ -81,13 +82,38 @@ export class AlbumService {
 		return zip([
 			this.getAlbumAction(shortCode),
 			this.checkPasscode(shortCode, passcode),
-			...images.map(image => {
-				const fileRef = rootRef.child(`${Date.now()}-${image.name}`);
-				return from(fileRef.put(image).then(() => fileRef.getDownloadURL()));
+			...images.map(async image => {
+					console.log('image');
+					const fileRef = this.storage.ref(`${Date.now()}-${image.name}`);
+					// await new Promise(resolve => {
+					// 	fileRef.put(image).then(() => {
+					// 		console.log('puts it');
+					// 		resolve();
+					// 	});
+					// });
+					// return fileRef.put(image).pipe(
+					// 	switchMap(() => fileRef.getDownloadURL())
+					// );
+
+					const task = fileRef.put(image);
+
+					return Observable.create(observer => {
+						task.snapshotChanges().pipe(
+							tap(() => console.log('bbe like but it do')),
+							finalize(() => {
+								console.log('finalize');
+								observer.next(fileRef.getDownloadURL());
+								observer.complete();
+							})
+						);
+					});
+
+					// return task.task.
+					// return (task as any).getDownloadURL();
 			})
 		]).pipe(
 			switchMap(([action, passMatch, ...urls]) => {
-				console.log('hello?'); // TODO: This isn't firing :^)
+				console.log('test');
 				if (!passMatch) {
 					throwError(new Error('Passcodes do not match!'));
 				}
@@ -114,14 +140,14 @@ export class AlbumService {
 				}));
 			}),
 			switchMap(blobs => {
-				const jzip = new JSZip();
-				const folder = jzip.folder('Photos');
+				const jszip = new JSZip();
+				const folder = jszip.folder('Photos');
 
 				for (let i = 0; i < blobs.length; i++) {
 					folder.file(urls[i], blobs[i]);
 				}
 
-				return jzip.generateAsync({ type: 'blob' });
+				return jszip.generateAsync({ type: 'blob' });
 			})
 		);
 	}

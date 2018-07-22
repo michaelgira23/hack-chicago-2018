@@ -7,7 +7,7 @@
 	</h1>
 	<h2>Find Albums</h2>
 	<ul class="albums list-group">
-		<a *ngFor="let album of albums; let i = index" href="#" class="list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['album', albums[i].shortCode]">
+		<a *ngFor="let album of albums; let i = index" class="list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['/album', albums[i].shortCode]">
 			<div class="d-flex w-100 justify-content-between">
 				<h5 class="mb-1">
 					{{album.name}}
