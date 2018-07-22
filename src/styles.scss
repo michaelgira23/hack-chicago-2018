@@ -22,7 +22,7 @@ body {
 
 .back {
 	display: block;
-	margin: 1rem 0;
+	margin-bottom: 1rem;
 	padding-top: 2rem;
 	color: var(--gray);
 	font-size: 1.25rem;
@@ -44,7 +44,7 @@ body {
 	transition: top 100ms ease-out, box-shadow 100ms ease-out;
 
 	border: none;
-	box-shadow: 0 4px #af001d;
+	box-shadow: 0 6px #af001d;
 
 	// &:hover {
 	// 	top: 2px;

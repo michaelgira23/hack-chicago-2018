@@ -5,18 +5,22 @@
 			Next time, only one of you needs to take the group photo!
 		</p>
 	</h1>
-	<h2>Nearby Albums</h2>
-	<ul class="albums list-group">
-		<a *ngFor="let album of albums; let i = index" class="list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['/album', albums[i].shortCode]">
-			<div class="d-flex w-100 justify-content-between">
-				<h5 class="mb-1">
-					{{album.name}}
-					<span class="badge badge-secondary badge-pill">{{albumPhotoCounts[i]}}</span>
-				</h5>
-				<small class="text-muted">{{album.distance | number:'1.0-0'}} m away</small>
-			</div>
-		</a>
-	</ul>
+	<div class="albums-container">
+		<ul class="albums list-group">
+			<a *ngFor="let album of albums; let i = index" class="list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['/album', albums[i].shortCode]">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">
+						{{album.name}}<br/>
+						<span class="badge badge-primary badge-pill">{{albumPhotoCounts[i]}} Photos</span>
+					</h5>
+					<small class="album-distance text-muted">
+						{{album.distance | number:'1.0-0'}}m away<br/>
+						{{ album.created | date }}
+					</small>
+				</div>
+			</a>
+		</ul>
+	</div>
 	<a routerLink="/create" class="cool-button btn btn-primary btn-lg btn-block">
 		<i class="fas fa-plus"></i> Create New Album
 	</a>

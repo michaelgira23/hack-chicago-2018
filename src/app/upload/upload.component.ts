@@ -14,6 +14,7 @@ export class UploadComponent implements OnInit {
 
 	@ViewChild('pictures') picturesInput: ElementRef;
 
+	uploading = false;
 	album: Album;
 	files: any;
 
@@ -33,32 +34,16 @@ export class UploadComponent implements OnInit {
 
 	upload() {
 		const files = Array.from<File>(this.picturesInput.nativeElement.files);
-		console.log('files)', files);
+		if (files.length < 1) {
+			return;
+		}
+		this.uploading = true;
 
-		// console.log('this.files', this.picturesInput.nativeElement.files);
 		this.albumService.addImageToAlbum(this.album.shortCode, '', files).subscribe((url) => {
 			console.log('upload image success', url);
-
-			// if (!check) {
-			// 	console.log('oh no');
-			// }
-
-		// 	uploadedImage.ref.getDownloadURL()
-		// 		.then(url => {
-		// 			console.log('***url', url);
-		//
-		// 			return this.db.object(`albums/${action.key}/images`).update({ [Date.now()]: url });
-		// 		})
-		// 		.catch(err => console.log('help', err));
+			this.uploading = false;
+			this.picturesInput.nativeElement.value = null;
 		});
-		// this.albumService.addImagesToAlbum(this.album.shortCode, '', files).subscribe(
-		// 	() => {
-		// 		console.log('success');
-		// 	},
-		// 	err => {
-		// 		console.log('err', err);
-		// 	}
-		// );
 	}
 
 }

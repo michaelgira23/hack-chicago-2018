@@ -11,6 +11,7 @@ import { saveAs } from 'file-saver';
 })
 export class AlbumComponent implements OnInit {
 
+	passcode = false;
 	album: Album;
 	imageKeys: string[] = [];
 
@@ -24,6 +25,9 @@ export class AlbumComponent implements OnInit {
 					this.imageKeys = Object.keys(album.images || []);
 				} else {
 					this.imageKeys = [];
+				}
+				if (this.album.passcode) {
+					this.passcode = true;
 				}
 				console.log(this.album);
 			},
