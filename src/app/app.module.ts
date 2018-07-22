@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { routing, appRoutingProviders } from './app.routing';
 import { environment } from '../environments/environment';
 
@@ -23,6 +24,7 @@ import { CreateComponent } from './create/create.component';
     routing,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
     AngularFireStorageModule
   ],
   providers: [appRoutingProviders],
