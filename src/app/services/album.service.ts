@@ -8,7 +8,6 @@ import { LocationService } from '../services/location.service';
 import { AngularFireStorage } from 'angularfire2/storage';
 import * as JSZip from 'jszip';
 import { HttpClient } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
 
 @Injectable({
 	providedIn: 'root'
@@ -19,8 +18,7 @@ export class AlbumService {
 		private db: AngularFireDatabase,
 		private locationService: LocationService,
 		private storage: AngularFireStorage,
-		private http: HttpClient,
-		private date: DatePipe
+		private http: HttpClient
 	) {	}
 
 	getAllAlbums() {
