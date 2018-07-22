@@ -1,14 +1,12 @@
 import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album, DistanceAlbum } from '../models/album.model';
-import { Injectable } from '@angular/core';
-import { Observable, combineLatest, forkJoin, from, throwError, zip } from 'rxjs';
-import { finalize, map, switchMap, tap } from 'rxjs/operators';
+import { Injectable} from '@angular/core';
+import { Observable, Subject, combineLatest, forkJoin, throwError, from } from 'rxjs';
+import { first, map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
-import { AngularFireStorage } from 'angularfire2/storage';
 import * as JSZip from 'jszip';
 import { HttpClient } from '@angular/common/http';
-import { UploadTaskSnapshot } from 'angularfire2/storage/interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,7 +16,6 @@ export class AlbumService {
 	constructor(
 		private db: AngularFireDatabase,
 		private locationService: LocationService,
-		private storage: AngularFireStorage,
 		private http: HttpClient,
 	) {	}
 
@@ -77,52 +74,34 @@ export class AlbumService {
 		);
 	}
 
-	addImagesToAlbum(shortCode: string, passcode: string, images: File[]) {
+	addImageToAlbum(shortCode: string, passcode: string, files: File[]) {
 		const rootRef = firebase.storage().ref();
-		return zip([
-			this.getAlbumAction(shortCode),
+		return combineLatest(
 			this.checkPasscode(shortCode, passcode),
-			...images.map(async image => {
-					console.log('image');
-					const fileRef = this.storage.ref(`${Date.now()}-${image.name}`);
-					// await new Promise(resolve => {
-					// 	fileRef.put(image).then(() => {
-					// 		console.log('puts it');
-					// 		resolve();
-					// 	});
-					// });
-					// return fileRef.put(image).pipe(
-					// 	switchMap(() => fileRef.getDownloadURL())
-					// );
-
-					const task = fileRef.put(image);
-
-					return Observable.create(observer => {
-						task.snapshotChanges().pipe(
-							tap(() => console.log('bbe like but it do')),
-							finalize(() => {
-								console.log('finalize');
-								observer.next(fileRef.getDownloadURL());
-								observer.complete();
-							})
-						);
-					});
-
-					// return task.task.
-					// return (task as any).getDownloadURL();
-			})
-		]).pipe(
-			switchMap(([action, passMatch, ...urls]) => {
-				console.log('test');
+			...files.map(file => this.observableToPromise(rootRef.child(`${Date.now()}-${file.name}`).put(file)))
+		).pipe(
+			switchMap(([passMatch, ...uploadedImages]) => {
 				if (!passMatch) {
 					throwError(new Error('Passcodes do not match!'));
 				}
-
-				const urlMap: { [timestamp: number]: string } = {};
-				for (const url of urls) {
-					urlMap[Date.now()] = url as string;
-				}
-				return this.db.object(`albums/${(action as SnapshotAction<Album>).key}/images`).update(urlMap);
+				return combineLatest(
+					this.getAlbumAction(shortCode).pipe(first()),
+					...uploadedImages.map(image => Observable.create(observer => {
+						image.ref.getDownloadURL().then(
+							url => {
+								observer.next(url);
+								observer.complete();
+							},
+							err => observer.error(err)
+						);
+					}))
+				);
+			}),
+			first(),
+			switchMap(([action, ...urls]) => {
+				return forkJoin(
+					...urls.map(url => this.db.object(`albums/${action.key}/images`).update({ [Date.now()]: url }))
+				);
 			})
 		);
 	}
@@ -157,6 +136,23 @@ export class AlbumService {
 			map(a => a.passcode === passcode)
 		);
 	}
+
+	private observableToPromise(promise): Observable<any> {
+
+		const subject = new Subject<any>();
+
+		promise
+			.then(res => {
+					subject.next(res);
+					subject.complete();
+				},
+				err => {
+					subject.error(err);
+					subject.complete();
+				});
+
+		return subject.asObservable();
+}
 
 }
 
