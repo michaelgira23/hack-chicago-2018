@@ -13,7 +13,8 @@ export class CreateComponent implements OnInit {
 	createAlbumForm = new FormGroup({
 		name: new FormControl(''),
 		discoverable: new FormControl(true),
-		passcode: new FormControl('')
+		passcode: new FormControl(''),
+		privateView: new FormControl(false)
 	});
 
 	constructor(private router: Router, private albumService: AlbumService) {
@@ -26,7 +27,7 @@ export class CreateComponent implements OnInit {
 		this.albumService.createAlbum(this.createAlbumForm.value).subscribe(
 			album => {
 				this.router.navigate(['/upload', album.shortCode]);
-				localStorage.setItem(`album-${album.name}-${album.created.getTime()}`, album.passcode);
+				localStorage.setItem(`album-${album.name}-${new Date(album.created).getTime()}`, album.passcode);
 			},
 			err => {
 				console.log(err);

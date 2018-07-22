@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album.model';
+import { AngularFireDatabase } from 'angularfire2/database';
+import 'rxjs-compat/add/operator/first';
 
 @Component({
 	selector: 'app-upload',
@@ -12,10 +14,11 @@ export class UploadComponent implements OnInit {
 
 	@ViewChild('pictures') picturesInput: ElementRef;
 
+	uploading = false;
 	album: Album;
 	files: any;
 
-	constructor(private route: ActivatedRoute, private albumService: AlbumService) { }
+	constructor(private route: ActivatedRoute, private albumService: AlbumService, private db: AngularFireDatabase) { }
 
 	ngOnInit() {
 		this.albumService.getAlbum(this.route.snapshot.params['shortCode']).subscribe(
@@ -31,15 +34,16 @@ export class UploadComponent implements OnInit {
 
 	upload() {
 		const files = Array.from<File>(this.picturesInput.nativeElement.files);
-		console.log('this.files', this.picturesInput.nativeElement.files);
-		this.albumService.addImagesToAlbum(this.album.shortCode, '', files).subscribe(
-			() => {
-				console.log('success');
-			},
-			err => {
-				console.log('err', err);
-			}
-		);
+		if (files.length < 1) {
+			return;
+		}
+		this.uploading = true;
+
+		this.albumService.addImageToAlbum(this.album.shortCode, '', files).subscribe((url) => {
+			console.log('upload image success', url);
+			this.uploading = false;
+			this.picturesInput.nativeElement.value = null;
+		});
 	}
 
 }

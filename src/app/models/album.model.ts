@@ -5,9 +5,10 @@ export interface Album {
 	images: { [timestamp: number]: string };
 	passcode: string;
 	location: Location;
-	created: Date;
+	created: number;
 	name: string;
 	discoverable: boolean;
+	privateView: boolean;
 }
 
 export interface DistanceAlbum extends Album {
