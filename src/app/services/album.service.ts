@@ -22,8 +22,10 @@ export class AlbumService {
 		return this.db.list<Album>('albums').valueChanges();
 	}
 
-	getAlbum(id: string) {
-		return this.db.object<Album>(`albums/${id}`).valueChanges();
+	getAlbum(shortCode: string) {
+		return this.getAllAlbums().pipe<Album | undefined>(
+			map(albums => albums.find(a => a.shortCode === shortCode))
+		);
 	}
 
 	getAllAlbumsSorted() {

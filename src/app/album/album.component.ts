@@ -15,7 +15,7 @@ export class AlbumComponent implements OnInit {
 	constructor(private route: ActivatedRouteSnapshot, private albumService: AlbumService) { }
 
 	ngOnInit() {
-		this.albumService.getAlbum(this.route.params['id']).subscribe(
+		this.albumService.getAlbum(this.route.params['shortCode']).subscribe(
 			album => {
 				this.album = album;
 				console.log(this.album);

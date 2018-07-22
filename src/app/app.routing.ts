@@ -14,7 +14,7 @@ export const appRoutes: Routes = [
 		component: CreateComponent
 	},
 	{
-		path: 'album/:id',
+		path: 'album/:shortCode',
 		component: AlbumComponent
 	},
 	{
