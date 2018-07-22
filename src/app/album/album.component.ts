@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album.model';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'app-album',
@@ -10,7 +11,11 @@ import { Album } from '../models/album.model';
 })
 export class AlbumComponent implements OnInit {
 
-	passcode = false;
+	passcodeForm = new FormGroup({
+		passcode: new FormControl('')
+	});
+
+	passcode = true;
 	album: Album;
 	imageKeys: string[] = [];
 
@@ -25,8 +30,8 @@ export class AlbumComponent implements OnInit {
 				} else {
 					this.imageKeys = [];
 				}
-				if (this.album.passcode) {
-					this.passcode = true;
+				if (this.album.passcode.length === 0) {
+					this.passcode = false;
 				}
 				console.log(this.album);
 			},
@@ -34,6 +39,13 @@ export class AlbumComponent implements OnInit {
 				console.log(err);
 			}
 		);
+	}
+
+	checkPasscode() {
+		console.log(this.passcodeForm.value.passcode === this.album.passcode);
+		if (this.passcodeForm.value.passcode === this.album.passcode) {
+			this.passcode = false;
+		}
 	}
 
 }

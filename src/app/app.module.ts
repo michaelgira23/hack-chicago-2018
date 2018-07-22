@@ -14,6 +14,7 @@ import { AlbumComponent } from './album/album.component';
 import { HomeComponent } from './home/home.component';
 import { CreateComponent } from './create/create.component';
 import { UploadComponent } from './upload/upload.component';
+import { FindComponent } from './find/find.component';
 
 @NgModule({
 	declarations: [
@@ -21,7 +22,8 @@ import { UploadComponent } from './upload/upload.component';
 		AlbumComponent,
 		HomeComponent,
 		CreateComponent,
-		UploadComponent
+		UploadComponent,
+		FindComponent
 	],
 	imports: [
 		BrowserModule,

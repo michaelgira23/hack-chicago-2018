@@ -9,19 +9,19 @@
 			<button *ngIf="!passcode" class="download btn btn-secondary">Download Album</button>
 		</div>
 	</div>
-	<div *ngIf="passcode" class="cool-container">
-		<form>
+	<div *ngIf="passcode" class="cool-container bounceInDown">
+		<form [formGroup]="passcodeForm" (ngSubmit)="checkPasscode()">
 			<div class="form-group">
 				<label for="passcodeInput">Passcode</label>
-				<input type="password" class="form-control" id="passcodeInput" placeholder="Super Secret" required>
+				<input formControlName="passcode" type="password" class="form-control" id="passcodeInput" placeholder="Super Secret" required>
 			</div>
-			<button type="submit" class="btn btn-primary btn-lg btn-block">
+			<button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="!passcodeForm.valid">
 				<i class="fas fa-cloud-upload"></i> Submit
 			</button>
 		</form>
 	</div>
-	<div class="container bounceInDown" *ngIf="!passcode">
-		<div class="container bounceInDown">
+	<div class="container" *ngIf="!passcode">
+		<div class="container">
 			<div class="card-columns">
 				<div class="album-upload-image card p-3" [routerLink]="['/upload', album.shortCode]">
 					<i class="fas fa-cloud-upload"></i>
