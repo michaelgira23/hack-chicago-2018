@@ -1,8 +1,8 @@
 import { Location } from './location.model';
 
 export interface Album {
-	owners: { [uid: string]: true };
 	images: { [uid: string]: true };
+	passcode: string;
 	location: Location;
 	created: Date;
 	name: string;
