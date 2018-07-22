@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlbumService } from '../services/album.service';
 import { Album } from '../models/album.model';
+import { AngularFireDatabase } from 'angularfire2/database';
+import 'rxjs-compat/add/operator/first';
 
 @Component({
 	selector: 'app-upload',
@@ -15,7 +17,7 @@ export class UploadComponent implements OnInit {
 	album: Album;
 	files: any;
 
-	constructor(private route: ActivatedRoute, private albumService: AlbumService) { }
+	constructor(private route: ActivatedRoute, private albumService: AlbumService, private db: AngularFireDatabase) { }
 
 	ngOnInit() {
 		this.albumService.getAlbum(this.route.snapshot.params['shortCode']).subscribe(
@@ -33,13 +35,18 @@ export class UploadComponent implements OnInit {
 		const files = Array.from<File>(this.picturesInput.nativeElement.files);
 		console.log('files)', files);
 		// console.log('this.files', this.picturesInput.nativeElement.files);
-		this.albumService.addImageToAlbum(this.album.shortCode, '', files[0]).subscribe(([, , uploadedImage]) => {
+		this.albumService.addImageToAlbum(this.album.shortCode, '', files[0]).first().subscribe(([action, check, uploadedImage]) => {
 			console.log('upload image success');
 
-			uploadedImage.ref.getDownloadURL().then(
-				url => console.log('***url', url),
-				err => console.log('help', err)
-			);
+			if (!check) { console.log('oh no'); }
+
+			uploadedImage.ref.getDownloadURL()
+				.then(url => {
+					console.log('***url', url);
+
+					return this.db.object(`albums/${action.key}/images`).update({ [Date.now()]: url });
+				})
+				.catch(err => console.log('help', err));
 		});
 		// this.albumService.addImagesToAlbum(this.album.shortCode, '', files).subscribe(
 		// 	() => {
