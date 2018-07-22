@@ -21,7 +21,7 @@ export class AlbumComponent implements OnInit {
 				this.album = album;
 				console.log('albumerino', this.album);
 				if (this.album) {
-					this.imageKeys = Object.keys(album.images);
+					this.imageKeys = Object.keys(album.images || []);
 				} else {
 					this.imageKeys = [];
 				}
