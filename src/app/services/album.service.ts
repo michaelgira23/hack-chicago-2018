@@ -102,9 +102,24 @@ export class AlbumService {
 		);
 	}
 
-	addImageToAlbum(file: File) {
+	addImageToAlbum(file: File, shortCode: string, passcode: string) {
 		const rootRef = firebase.storage().ref();
-		return this.observableToPromise(rootRef.child(`testeststest-${Date.now()}`).put(file));
+		return zip([
+			this.observableToPromise(rootRef.child(`testeststest-${Date.now()}`).put(file).then(s => s.ref.getDownloadURL())),
+			this.getAlbumAction(shortCode),
+			this.checkPasscode(shortCode, passcode)
+		]).pipe(
+			switchMap(([url, action, matches]) => {
+				console.log('hello?'); // TODO: This isn't firing :^)
+				if (!matches) {
+					throwError(new Error('Passcodes do not match!'));
+				}
+
+				return this.db.object(`albums/${(action as SnapshotAction<Album>).key}/images`).update({
+					[Date.now()]: url
+				});
+			})
+		);
 	}
 
 	downloadAllImagesZip(shortCode: string) {

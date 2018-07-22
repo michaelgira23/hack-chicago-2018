@@ -33,8 +33,13 @@ export class UploadComponent implements OnInit {
 		const files = Array.from<File>(this.picturesInput.nativeElement.files);
 		console.log('files)', files);
 		// console.log('this.files', this.picturesInput.nativeElement.files);
-		this.albumService.addImageToAlbum(files[0]).subscribe((uploadedImage: any) => {
-			console.log('upload image success', uploadedImage.metadata);
+		this.albumService.addImageToAlbum(files[0], this.album.shortCode, '').subscribe((uploadedImage: any) => {
+			console.log('upload image success', uploadedImage);
+
+			uploadedImage.ref.getDownloadURL().then(
+				url => console.log('url', url),
+				err => console.log('help', err)
+			);
 		});
 		// this.albumService.addImagesToAlbum(this.album.shortCode, '', files).subscribe(
 		// 	() => {
