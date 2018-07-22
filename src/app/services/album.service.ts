@@ -1,5 +1,5 @@
 import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
-import { Album } from '../models/album.model';
+import { Album, DistanceAlbum } from '../models/album.model';
 import { Injectable } from '@angular/core';
 import { combineLatest, from, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -19,7 +19,7 @@ export class AlbumService {
 	) {	}
 
 	getAllAlbums() {
-		return this.db.list<Album>('albums').snapshotChanges();
+		return this.db.list<Album>('albums').valueChanges();
 	}
 
 	getAlbum(id: string) {
@@ -27,14 +27,15 @@ export class AlbumService {
 	}
 
 	getAllAlbumsSorted() {
-		return combineLatest(this.locationService.location$, this.getAllAlbums()).pipe<SnapshotAction<Album>[]>(
+		return combineLatest(this.locationService.location$, this.getAllAlbums()).pipe<DistanceAlbum[]>(
 			map(([loc, refs]) => {
-				refs.sort((a, b) => {
-					const aLoc = a.payload.val().location;
-					const bLoc = b.payload.val().location;
-					return this.locationService.getDistance(loc, aLoc) - this.locationService.getDistance(loc, bLoc);
+				const newRefs = refs.map(r => {
+					const newRef: Partial<DistanceAlbum> = Object.assign({}, r); // Clone
+					newRef.distance = this.locationService.getDistance(loc, r.location);
+					return newRef as DistanceAlbum;
 				});
-				return refs;
+				newRefs.sort((a, b) => a.distance - b.distance);
+				return newRefs;
 			})
 		);
 	}
@@ -42,7 +43,13 @@ export class AlbumService {
 	createAlbum(options: CreateAlbumOptions) {
 		return this.locationService.location$.pipe(
 			switchMap(location => {
+				const alphabetArr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+				let shortCode = '';
+				for (let i = 0; i < 5; i++) {
+					shortCode += alphabetArr[Math.floor(Math.random() * 52)];
+				}
 				const album: Album = {
+					shortCode,
 					name: options.name,
 					discoverable: options.discoverable,
 					created: firebase.database.ServerValue.TIMESTAMP as any,
