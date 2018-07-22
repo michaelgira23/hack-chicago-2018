@@ -78,6 +78,7 @@ export class AlbumService {
 	addImagesToAlbum(shortCode: string, passcode: string, images: File[]) {
 		return forkJoin([
 			this.getAlbumAction(shortCode),
+			this.checkPasscode(shortCode, passcode),
 			...images.map(image => {
 				const fileRef = this.storage.ref(`${Date.now()}-${image.name}`);
 				fileRef.put(image);
@@ -85,17 +86,16 @@ export class AlbumService {
 				return fileRef.getDownloadURL();
 			})
 		]).pipe(
-			switchMap(([action, ...urls]) => {
-				const snapAction = action as SnapshotAction<Album>;
-				if (snapAction.payload.val().passcode !== passcode) {
-					return throwError(new Error('Passcodes do not match!'));
+			switchMap(([action, passMatch, ...urls]) => {
+				if (!passMatch) {
+					throwError(new Error('Passcodes do not match!'));
 				}
 
 				const urlMap: { [timestamp: number]: string } = {};
 				for (const url of urls) {
 					urlMap[Date.now()] = url as string;
 				}
-				return this.db.object(`albums/${snapAction.key}/images`).update(urlMap);
+				return this.db.object(`albums/${(action as SnapshotAction<Album>).key}/images`).update(urlMap);
 			})
 		);
 	}
@@ -122,6 +122,12 @@ export class AlbumService {
 
 				return zip.generateAsync({ type: 'blob' });
 			})
+		);
+	}
+
+	checkPasscode(shortCode: string, passcode: string) {
+		return this.getAlbum(shortCode).pipe<boolean>(
+			map(a => a.passcode === passcode)
 		);
 	}
 
