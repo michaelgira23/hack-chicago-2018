@@ -4,7 +4,7 @@ node_js:
 install:
   - npm install -g firebase-tools
 script:
-  - npm test
+  - npm lint
   - npm run build:prod
 after_success:
   - firebase deploy - project hack-chicago-2018 - token $FIREBASE_TOKEN.
