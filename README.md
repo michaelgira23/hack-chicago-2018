@@ -4,7 +4,7 @@ This project was created in 24 hours by a team of four people! Blake Abel, Jack 
 
 ## CapShare
 
-![Logo](src/assets/new-logo-primary.svg)
+<img src="src/assets/new-logo-primary.svg" alt-text="Logo" width=350>
 
 We created CapShare to finally have a good way to share the pictures that everyone wants to have. The graduation photos, the hackathon friends, and everything in between. Gone are the days of making a huge groupchat to send pictures or asking friends for pictures they took days ago!
 
