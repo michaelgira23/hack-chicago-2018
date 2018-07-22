@@ -3,8 +3,19 @@
 }
 
 .albums-container {
+	box-shadow: 0 -6px rgba(0, 0, 0, 0.25);
 	margin-bottom: 2.5rem;
 	// padding: 1.5rem 0;
 	overflow-y: scroll;
-	height: 20rem;
+	height: 25rem;
+
+	.list-group-item {
+		transition: 100ms ease-out;
+	}
+
+	.list-group-item:focus {
+		box-shadow: 0 6px rgba(0, 0, 0, 0.25);
+		transform: translate(0, -6px);
+		border-radius: 0.25rem;
+	}
 }
