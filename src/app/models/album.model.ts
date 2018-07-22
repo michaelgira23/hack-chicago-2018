@@ -2,7 +2,7 @@ import { Location } from './location.model';
 
 export interface Album {
 	shortCode: string;
-	images: { [uid: string]: true };
+	images: { [timestamp: number]: string };
 	passcode: string;
 	location: Location;
 	created: Date;
