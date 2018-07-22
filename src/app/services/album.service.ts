@@ -1,13 +1,14 @@
 import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album, DistanceAlbum } from '../models/album.model';
 import { Injectable } from '@angular/core';
-import { combineLatest, forkJoin, from, throwError } from 'rxjs';
+import { combineLatest, forkJoin, from, throwError, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
 import { AngularFireStorage } from 'angularfire2/storage';
 import * as JSZip from 'jszip';
 import { HttpClient } from '@angular/common/http';
+import { UploadTaskSnapshot } from 'angularfire2/storage/interfaces';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,7 +18,6 @@ export class AlbumService {
 	constructor(
 		private db: AngularFireDatabase,
 		private locationService: LocationService,
-		private storage: AngularFireStorage,
 		private http: HttpClient
 	) {	}
 
@@ -76,17 +76,17 @@ export class AlbumService {
 	}
 
 	addImagesToAlbum(shortCode: string, passcode: string, images: File[]) {
-		return forkJoin([
+		const rootRef = firebase.storage().ref();
+		return zip([
 			this.getAlbumAction(shortCode),
 			this.checkPasscode(shortCode, passcode),
 			...images.map(image => {
-				const fileRef = this.storage.ref(`${Date.now()}-${image.name}`);
-				fileRef.put(image);
-
-				return fileRef.getDownloadURL();
+				const fileRef = rootRef.child(`${Date.now()}-${image.name}`);
+				return from(fileRef.put(image).then(() => fileRef.getDownloadURL()));
 			})
 		]).pipe(
 			switchMap(([action, passMatch, ...urls]) => {
+				console.log('hello?'); // TODO: This isn't firing :^)
 				if (!passMatch) {
 					throwError(new Error('Passcodes do not match!'));
 				}
@@ -113,14 +113,14 @@ export class AlbumService {
 				}));
 			}),
 			switchMap(blobs => {
-				const zip = new JSZip();
-				const folder = zip.folder('Photos');
+				const jzip = new JSZip();
+				const folder = jzip.folder('Photos');
 
 				for (let i = 0; i < blobs.length; i++) {
 					folder.file(urls[i], blobs[i]);
 				}
 
-				return zip.generateAsync({ type: 'blob' });
+				return jzip.generateAsync({ type: 'blob' });
 			})
 		);
 	}
