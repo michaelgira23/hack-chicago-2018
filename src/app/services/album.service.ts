@@ -2,7 +2,7 @@ import { AngularFireDatabase, SnapshotAction } from 'angularfire2/database';
 import { Album, DistanceAlbum } from '../models/album.model';
 import { Injectable} from '@angular/core';
 import { Observable, Subject, combineLatest, forkJoin, throwError, from } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 import * as firebase from 'firebase';
 import { LocationService } from '../services/location.service';
 import * as JSZip from 'jszip';
@@ -74,26 +74,34 @@ export class AlbumService {
 		);
 	}
 
-	addImageToAlbum(shortCode: string, passcode: string, file: File) {
+	addImageToAlbum(shortCode: string, passcode: string, files: File[]) {
 		const rootRef = firebase.storage().ref();
 		return combineLatest(
-			this.getAlbumAction(shortCode),
 			this.checkPasscode(shortCode, passcode),
-			this.observableToPromise(rootRef.child(`${Date.now()}-${file.name}`).put(file))
+			...files.map(file => this.observableToPromise(rootRef.child(`${Date.now()}-${file.name}`).put(file)))
 		).pipe(
-			switchMap(([action, passMatch, uploadedImages]) => {
+			switchMap(([passMatch, ...uploadedImages]) => {
 				if (!passMatch) {
 					throwError(new Error('Passcodes do not match!'));
 				}
-				return Observable.create(observer => {
-					uploadedImages.ref.getDownloadURL().then(
-						url => {
-							observer.next(url);
-							observer.complete();
-						},
-						err => observer.error(err)
-					);
-				});
+				return combineLatest(
+					this.getAlbumAction(shortCode).pipe(first()),
+					...uploadedImages.map(image => Observable.create(observer => {
+						image.ref.getDownloadURL().then(
+							url => {
+								observer.next(url);
+								observer.complete();
+							},
+							err => observer.error(err)
+						);
+					}))
+				);
+			}),
+			first(),
+			switchMap(([action, ...urls]) => {
+				return forkJoin(
+					...urls.map(url => this.db.object(`albums/${action.key}/images`).update({ [Date.now()]: url }))
+				);
 			})
 		);
 	}

@@ -36,7 +36,7 @@ export class UploadComponent implements OnInit {
 		console.log('files)', files);
 
 		// console.log('this.files', this.picturesInput.nativeElement.files);
-		this.albumService.addImageToAlbum(this.album.shortCode, '', files[0]).subscribe((url) => {
+		this.albumService.addImageToAlbum(this.album.shortCode, '', files).subscribe((url) => {
 			console.log('upload image success', url);
 
 			// if (!check) {
