@@ -70,7 +70,8 @@ export class AlbumService {
 					passcode: options.passcode || '',
 					location
 				};
-				return from(this.db.list<Album>('albums').push(album).then());
+				return from(this.db.list<Album>('albums').push(album).then())
+					.pipe(map(() => album));
 			})
 		);
 	}

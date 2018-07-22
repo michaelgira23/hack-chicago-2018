@@ -19,7 +19,6 @@ export class AlbumComponent implements OnInit {
 		this.albumService.getAlbum(this.route.snapshot.params['shortCode']).subscribe(
 			album => {
 				this.album = album;
-				console.log('albumerino', this.album);
 				if (this.album) {
 					this.imageKeys = Object.keys(album.images);
 				} else {
