@@ -8,15 +8,9 @@
 		<button class="btn btn-secondary">Download Album</button>
 	</div>
 </div>
-<div class="cool-container">
+<div class="container">
 	<div class="row">
-		<div class="col-6 card">
-			<div class="card-img-top">
-				<i class="fas fa-plus"></i>
-			</div>
-
-		</div>
-		<div *ngFor="let key of imageKeys" class="col-6 card">
+		<div *ngFor="let key of imageKeys" class="col-3 card">
 			<img class="card-img-top" [src]="album.images[key]">
 			<!-- <div class="card-body">
 				<h5 class="card-title">Card title</h5>
