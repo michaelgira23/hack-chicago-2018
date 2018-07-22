@@ -17,6 +17,10 @@ export class AlbumService {
     return this.db.list<Album>('albums').valueChanges();
   }
 
+  getAlbum(id: string) {
+    return this.db.object<Album>(`albums/${id}`).valueChanges();
+  }
+
   createAlbum(options: CreateAlbumOptions) {
     return this.locationService.location$.pipe(
         switchMap(location => {
