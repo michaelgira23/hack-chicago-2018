@@ -1,3 +1,25 @@
-<p>
-  find works!
-</p>
+<div class="cool-container bounceInDown">
+	<a class="back" routerLink="/">
+		<i class="fas fa-angle-left"></i> Back
+	</a>
+	<h1 class="title">Nearby Albums</h1>
+	<div class="albums-container card">
+		<ul class="albums list-group">
+			<a *ngFor="let album of albums; let i = index" class="list-group-item list-group-item-action flex-column align-items-start" [routerLink]="['/album', albums[i].shortCode]">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">
+						{{album.name}}<br/>
+						<span class="badge badge-primary badge-pill">{{albumPhotoCounts[i]}} Photo{{ albumPhotoCounts[i] > 1 ? 's' : '' }}</span>
+					</h5>
+					<small class="album-distance text-muted">
+						{{album.distance | number:'1.0-0'}}m away<br/>
+						{{ album.created | date }}
+					</small>
+				</div>
+			</a>
+		</ul>
+	</div>
+	<a routerLink="/create" class="cool-button btn btn-primary btn-lg btn-block">
+		<i class="fas fa-plus"></i> Create New Album
+	</a>
+</div>

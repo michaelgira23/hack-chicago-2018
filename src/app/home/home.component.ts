@@ -8,26 +8,7 @@ import { DistanceAlbum } from '../models/album.model';
 	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+	constructor() {}
 
-	albums: DistanceAlbum[] = [];
-
-	albumPhotoCounts: number[] = [];
-
-	constructor(private albumService: AlbumService) {
-	}
-
-	ngOnInit() {
-		this.albumService.getAllAlbumsSorted()
-		.subscribe(
-			albums => {
-				this.albums = [];
-				this.albumPhotoCounts = [];
-				albums.forEach(album => {
-					this.albums.push(album);
-					this.albumPhotoCounts.push(Object.keys(album.images || []).length);
-				});
-			},
-		);
-	}
-
+	ngOnInit() {}
 }
