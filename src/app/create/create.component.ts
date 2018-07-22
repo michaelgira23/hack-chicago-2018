@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AlbumService } from '../services/album.service';
 
@@ -15,7 +16,7 @@ export class CreateComponent implements OnInit {
 		passcode: new FormControl('')
 	});
 
-	constructor(private albumService: AlbumService) {
+	constructor(private router: Router, private albumService: AlbumService) {
 	}
 
 	ngOnInit() {
@@ -23,8 +24,8 @@ export class CreateComponent implements OnInit {
 
 	onSubmit() {
 		this.albumService.createAlbum(this.createAlbumForm.value).subscribe(
-			ref => {
-				console.log('created new album');
+			album => {
+				this.router.navigate(['/upload', album.shortCode]);
 			},
 			err => {
 				console.log(err);

@@ -10,10 +10,10 @@
 </div>
 <div class="container" *ngIf="album">
 	<div class="card-columns">
-		<button class="album-upload-image card p-3" [routerLink]="['/upload', album.shortCode]">
+		<div class="album-upload-image card p-3" [routerLink]="['/upload', album.shortCode]">
 			<i class="fas fa-cloud-upload"></i>
 			<div>Upload</div>
-		</button>
+		</div>
 		<div *ngFor="let key of imageKeys" class="card">
 			<img class="card-img-top" [src]="album.images[key]">
 			<div class="card-footer">
