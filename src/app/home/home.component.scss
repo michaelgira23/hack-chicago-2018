@@ -1,8 +1,16 @@
+/* Yuh */
+.back {
+	opacity: 0;
+	pointer-events: none;
+}
+
 .brand {
+	padding-top: 5rem;
+	font-family: 'Baloo', sans-serif;
 	text-align: center;
 }
 
 .brand,
 .albums {
-	margin-bottom: 2rem;
+	margin-bottom: 2.5rem;
 }
