@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../services/album.service';
-import { Album } from '../models/album.model';
+import { DistanceAlbum } from '../models/album.model';
 
 @Component({
 	selector: 'app-home',
@@ -9,8 +9,7 @@ import { Album } from '../models/album.model';
 })
 export class HomeComponent implements OnInit {
 
-	albums: Album[] = [];
-	albumKeys: string[] = [];
+	albums: DistanceAlbum[] = [];
 
 	constructor(private albumService: AlbumService) {
 	}
@@ -18,13 +17,11 @@ export class HomeComponent implements OnInit {
 	ngOnInit() {
 		this.albumService.getAllAlbumsSorted()
 		.subscribe(
-			actions => {
+			albums => {
 				this.albums = [];
-				this.albumKeys = [];
-				actions.forEach(action => {
-					this.albumKeys.push(action.key);
-					this.albums.push(action.payload.val());
-					console.log(action.payload.val());
+				albums.forEach(action => {
+					this.albums.push(action);
+					console.log(action);
 				});
 			},
 		);
